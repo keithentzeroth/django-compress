@@ -87,11 +87,11 @@ class CSSOptimizer(object):
         img = 1
         clr = 1
         bg_img_list = []
-        if cssdata.has_key('background-image'):
+        if 'background-image' in cssdata:
             img = len(cssdata['background-image'].split(','))
             bg_img_list = self.parser.gvw_important(cssdata['background-image']).split(',')
 
-        elif cssdata.has_key('background-color'):
+        elif 'background-color' in cssdata:
             clr = len(cssdata['background-color'].split(','))
 
 
@@ -103,7 +103,7 @@ class CSSOptimizer(object):
         for i in xrange(number_of_values):
             for bg_property, default_value in data.background_prop_default.iteritems():
                 #Skip if property does not exist
-                if not cssdata.has_key(bg_property):
+                if bg_property not in cssdata:
                     continue
 
                 cur_value = cssdata[bg_property]
@@ -154,7 +154,7 @@ class CSSOptimizer(object):
         """
         for key, value in data.shorthands.iteritems():
             important = ''
-            if value != 0 and cssdata.has_key(value[0]) and cssdata.has_key(value[1]) and cssdata.has_key(value[2]) and cssdata.has_key(value[3]):
+            if value != 0 and value[0] in cssdata and value[1] in cssdata and value[2] in cssdata and value[3] in cssdata:
                 cssdata[key] = ''
 
                 for i in xrange(4):
@@ -167,7 +167,7 @@ class CSSOptimizer(object):
                         cssdata[key] += val + ' '
 
                     del cssdata[value[i]]
-            if cssdata.has_key(key):
+            if key in cssdata:
                 cssdata[key] = self.__shorthand(cssdata[key] + important.strip())
 
         return cssdata
@@ -203,7 +203,7 @@ class CSSOptimizer(object):
                         delete.append((media, selector_two))
 
 
-        if not add.has_key(media):
+        if media not in add:
             add[media] = SortedDict()
 
         add[media][newsel] = value_one
@@ -368,7 +368,7 @@ class CSSOptimizer(object):
                     color += str(hex(color_tmp[i])).replace('0x', '')
 
         #Fix bad color names
-        if data.replace_colors.has_key(color.lower()):
+        if color.lower() in data.replace_colors:
             color = data.replace_colors[color.lower()]
 
         #aabbcc . #abc
@@ -377,7 +377,7 @@ class CSSOptimizer(object):
             if color_temp[0] == '#' and color_temp[1] == color_temp[2] and color_temp[3] == color_temp[4] and color_temp[5] == color_temp[6]:
                 color = '#' + color[1] + color[3] + color[5]
 
-        if data.optimize_colors.has_key(color.lower()):
+        if color.lower() in data.optimize_colors:
             color = data.optimize_colors[color.lower()]
 
         return color

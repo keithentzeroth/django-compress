@@ -108,7 +108,7 @@ def compressed_css(parser, token):
     try:
         tag_name, name = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, '%r requires exactly one argument: the name of a group in the COMPRESS_CSS setting' % token.split_contents()[0]
+        raise template.TemplateSyntaxError( '%r requires exactly one argument: the name of a group in the COMPRESS_CSS setting' % token.split_contents()[0])
 
     return CompressedCSSNode(name)
 compressed_css = register.tag(compressed_css)
@@ -118,7 +118,7 @@ def compressed_js(parser, token):
     try:
         tag_name, name = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, '%r requires exactly one argument: the name of a group in the COMPRESS_JS setting' % token.split_contents()[0]
+        raise template.TemplateSyntaxError( '%r requires exactly one argument: the name of a group in the COMPRESS_JS setting' % token.split_contents()[0])
 
     return CompressedJSNode(name)
 compressed_js = register.tag(compressed_js)

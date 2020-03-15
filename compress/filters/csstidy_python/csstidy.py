@@ -153,7 +153,7 @@ class CSSTidy(object):
 
         add = {'m': message, 't': ttype}
 
-        if not self._log.has_key(line):
+        if line not in self._log:
             self._log[line] = []
             self._log[line].append(add)
         elif add not in self._log[line]:
@@ -349,7 +349,7 @@ class CSSTidy(object):
                 self._sub_value += self.__unicode(idx)
 
             elif self._css[idx] == ';' or pn:
-                if len(self._selector) > 0 and self._selector[0] == '@' and data.at_rules.has_key(self._selector[1:]) and data.at_rules[self._selector[1:]] == 'iv':
+                if len(self._selector) > 0 and self._selector[0] == '@' and self._selector[1:] in data.at_rules and data.at_rules[self._selector[1:]] == 'iv':
                     self._sub_value_arr.append(self._sub_value.strip())
 
                     self._status = 'is'
@@ -530,14 +530,14 @@ class CSSTidy(object):
         if self.getSetting('preserve_css') or new_val.strip() == '':
             return
 
-        if not self._raw_css.has_key(media):
+        if media not in self._raw_css:
             self._raw_css[media] = SortedDict()
 
-        if not self._raw_css[media].has_key(selector):
+        if selector not in self._raw_css[media]:
             self._raw_css[media][selector] = SortedDict()
 
         self._added = True
-        if self._raw_css[media][selector].has_key(prop):
+        if prop in self._raw_css[media][selector]:
             if (self.is_important(self._raw_css[media][selector][prop]) and self.is_important(new_val)) or not self.is_important(self._raw_css[media][selector][prop]):
                 del self._raw_css[media][selector][prop]
                 self._raw_css[media][selector][prop] = new_val.strip()
@@ -553,7 +553,7 @@ class CSSTidy(object):
             return False;
 
         istring = istring[:pos].strip().lower()
-        if data.all_properties.has_key(istring):
+        if istring in data.all_properties:
             self.log('Added semicolon to the end of declaration', 'Warning')
             return True
 
@@ -561,7 +561,7 @@ class CSSTidy(object):
 
     #Checks if a property is valid
     def __property_is_valid(self, prop):
-        return (data.all_properties.has_key(prop) and data.all_properties[prop].find(self.getSetting('css_level').upper()) != -1)
+        return (prop in data.all_properties and data.all_properties[prop].find(self.getSetting('css_level').upper()) != -1)
 
     #Adds a token to self._tokens
     def __add_token(self, ttype, cssdata, do=False):
@@ -632,5 +632,5 @@ if __name__ == '__main__':
     f.close()
     tidy.parse(css)
     tidy.Output('file', filename="Stylesheet.min.css")
-    print tidy.Output()
+    print (tidy.Output())
     #print tidy._import

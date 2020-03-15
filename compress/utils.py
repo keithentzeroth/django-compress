@@ -111,7 +111,7 @@ def remove_files(path, filename, verbosity=0):
         for f in os.listdir(path):
             if regex.match(f):
                 if verbosity >= 1:
-                    print "Removing outdated file %s" % f
+                    print ("Removing outdated file %s" % f)
         
                 os.unlink(os.path.join(path, f))
 
@@ -124,7 +124,7 @@ def filter_common(obj, verbosity, filters, attr, separator, signal):
         remove_files(os.path.dirname(media_root(filename)), obj['output_filename'], verbosity)
 
     if verbosity >= 1:
-        print "Saving %s" % filename
+        print ("Saving %s" % filename)
 
     for f in filters:
         output = getattr(get_class(f)(verbose=(verbosity >= 2)), attr)(output)
