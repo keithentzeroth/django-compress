@@ -1,0 +1,10 @@
+*.pyc
+build
+dist
+.settings
+*.egg-info
+.DS_Store
+my_settings.py
+.project
+.pydevproject
+sqlite3
