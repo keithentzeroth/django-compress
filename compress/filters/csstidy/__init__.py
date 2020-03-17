@@ -28,6 +28,6 @@ class CSSTidyFilter(FilterBase):
         tmp_file.close()
         
         if self.verbose:
-            print command_output
+            print(command_output)
         
         return filtered_css

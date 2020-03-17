@@ -22,8 +22,8 @@
 # @package csstidy
 # @author Dj Gilcrease (digitalxero at gmail dot com) 2005-2006
 
-import data
-from tools import SortedDict
+from . import data
+from .tools import SortedDict
 
 
 class CSSOptimizer(object):
@@ -44,15 +44,15 @@ class CSSOptimizer(object):
             self.__merge_selectors()
 
         ##OPTIMIZE##
-        for media, css in self._optimized_css.iteritems():
-            for selector, cssdata in css.iteritems():
+        for media, css in self._optimized_css.items():
+            for selector, cssdata in css.items():
                 if self.parser.getSetting('optimise_shorthands') >= 1:
                     cssdata = self.__merge_4value_shorthands(cssdata)
 
                 if self.parser.getSetting('optimise_shorthands') >= 2:
                     cssdata = self.__merge_bg(cssdata)
 
-                for item, value in cssdata.iteritems():
+                for item, value in cssdata.items():
                     value = self.__compress_numbers(item, value)
                     value = self.__compress_important(value)
 
@@ -100,8 +100,8 @@ class CSSOptimizer(object):
         new_bg_value = ''
         important = ''
 
-        for i in xrange(number_of_values):
-            for bg_property, default_value in data.background_prop_default.iteritems():
+        for i in range(number_of_values):
+            for bg_property, default_value in data.background_prop_default.items():
                 #Skip if property does not exist
                 if bg_property not in cssdata:
                     continue
@@ -135,7 +135,7 @@ class CSSOptimizer(object):
                 new_bg_value += ','
 
         #Delete all background-properties
-        for bg_property, default_value in data.background_prop_default.iteritems():
+        for bg_property, default_value in data.background_prop_default.items():
             try:
                 del cssdata[bg_property]
             except:
@@ -152,12 +152,12 @@ class CSSOptimizer(object):
             Merges Shorthand properties again, the opposite of dissolve_4value_shorthands()
             @cssdata (dict) is a dictionary of the selector properties
         """
-        for key, value in data.shorthands.iteritems():
+        for key, value in data.shorthands.items():
             important = ''
             if value != 0 and value[0] in cssdata and value[1] in cssdata and value[2] in cssdata and value[3] in cssdata:
                 cssdata[key] = ''
 
-                for i in xrange(4):
+                for i in range(4):
                     val = cssdata[value[i]]
                     if self.parser.is_important(val):
                         important = '!important'
@@ -188,11 +188,11 @@ class CSSOptimizer(object):
         raw_css = self._optimized_css.copy()
         delete = []
         add = SortedDict()
-        for media, css in raw_css.iteritems():
-            for selector_one, value_one in css.iteritems():
+        for media, css in raw_css.items():
+            for selector_one, value_one in css.items():
                 newsel = selector_one
 
-                for selector_two, value_two in css.iteritems():
+                for selector_two, value_two in css.items():
                     if selector_one == selector_two:
                         #We need to skip self
                         continue
@@ -216,7 +216,7 @@ class CSSOptimizer(object):
                 #Must have already been deleted
                 continue
 
-        for media, css in add.iteritems():
+        for media, css in add.items():
             self._optimized_css[media].update(css)
 
 
@@ -285,7 +285,7 @@ class CSSOptimizer(object):
 
         value = value.split('/')
 
-        for l in xrange(len(value)):
+        for l in range(len(value)):
             #continue if no numeric value
             if not (len(value[l]) > 0 and (value[l][0].isdigit() or value[l][0] in ('+', '-') )):
                 continue
@@ -361,7 +361,7 @@ class CSSOptimizer(object):
 
             color = '#'
 
-            for i in xrange(3):
+            for i in range(3):
                 if color_tmp[i] < 16:
                     color += '0' + str(hex(color_tmp[i])).replace('0x', '')
                 else:

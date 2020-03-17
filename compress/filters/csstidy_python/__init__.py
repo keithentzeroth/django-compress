@@ -9,7 +9,7 @@ class CSSTidyFilter(FilterBase):
     def filter_css(self, css):
         tidy = CSSTidy()
         
-        for k, v in COMPRESS_CSSTIDY_SETTINGS.items():
+        for k, v in list(COMPRESS_CSSTIDY_SETTINGS.items()):
             tidy.setSetting(k, v)
 
         tidy.parse(css)

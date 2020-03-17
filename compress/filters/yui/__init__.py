@@ -33,7 +33,7 @@ class YUICompressorFilter(FilterBase):
             raise FilterError(err)
 
         if self.verbose:
-            print err
+            print(err)
 
         return filtered_css
 

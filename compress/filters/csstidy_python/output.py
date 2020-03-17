@@ -22,7 +22,7 @@
 # @package csstidy
 # @author Dj Gilcrease (digitalxero at gmail dot com) 2005-2006
 
-import data
+from . import data
 
 class CSSPrinter(object):
     def __init__(self, parser):
@@ -79,11 +79,11 @@ class CSSPrinter(object):
         for item in self.parser._namespace:
             ret += '@namespace(' + item + ');' + top_line_end
 
-        for media, css in self._css.iteritems():
-            for selector, cssdata in css.iteritems():
+        for media, css in self._css.items():
+            for selector, cssdata in css.items():
                 ret += selector + '{' + top_line_end
 
-                for item, value in cssdata.iteritems():
+                for item, value in cssdata.items():
                     ret += indent +  item + ':' + value + ';' + iner_line_end
 
                 ret += '}' + bottom_line_end

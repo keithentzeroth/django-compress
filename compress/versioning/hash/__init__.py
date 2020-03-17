@@ -1,4 +1,4 @@
-import cStringIO
+import io
 from hashlib import md5, sha1
 import os
 
@@ -24,7 +24,7 @@ class HashVersioningBase(VersioningBase):
             
     def get_version(self, source_files):
         buf = concat(source_files)
-        s = cStringIO.StringIO(buf)
+        s = io.StringIO(buf)
         version = self.get_hash(s)
         s.close()
         return version            

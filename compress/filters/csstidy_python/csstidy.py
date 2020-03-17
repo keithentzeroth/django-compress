@@ -24,10 +24,10 @@
 
 import re
 
-from optimizer import CSSOptimizer
-from output import CSSPrinter
-import data
-from tools import SortedDict
+from .optimizer import CSSOptimizer
+from .output import CSSPrinter
+from . import data
+from .tools import SortedDict
 
 class CSSTidy(object):
     #Saves the parsed CSS
@@ -166,7 +166,7 @@ class CSSTidy(object):
 
     #Adds CSS to an existing media/selector
     def merge_css_blocks(self, media, selector, css_add):
-        for prop, value in css_add.iteritems():
+        for prop, value in css_add.items():
             self.__css_add_property(media, selector, prop, value, False)
 
     #Checks if $value is !important.
@@ -228,7 +228,7 @@ class CSSTidy(object):
                 #Check for at-rule
                 self._invalid_at = True
 
-                for name, ttype in data.at_rules.iteritems():
+                for name, ttype in data.at_rules.items():
                     if self._css[idx+1:len(name)].lower() == name.lower():
                         if ttype == 'at':
                             self._at = '@' + name
@@ -242,7 +242,7 @@ class CSSTidy(object):
                 if self._invalid_at:
                     self._selector = '@'
                     invalid_at_name = ''
-                    for j in xrange(idx+1, len(self._css)):
+                    for j in range(idx+1, len(self._css)):
                         if not self._css[j].isalpha():
                             break;
 
@@ -509,7 +509,7 @@ class CSSTidy(object):
             lastpos = 0;
             self._sel_separate.append(len(self._selector))
 
-            for num in xrange(len(self._sel_separate)):
+            for num in range(len(self._sel_separate)):
                 pos = self._sel_separate[num]
                 if num == (len(self._sel_separate)): #CHECK#
                     pos += 1
@@ -583,7 +583,7 @@ class CSSTidy(object):
     def __parse_from_url(self, url):
         try:
             if "http" in url.lower() or "https" in url.lower():
-                f = urllib.urlopen(url)
+                f = urllib.request.urlopen(url)
             else:
                 f = open(url)
 
@@ -604,7 +604,7 @@ class CSSTidy(object):
 
     def _getLog(self):
         ret = ""
-        ks = self._log.keys()
+        ks = list(self._log.keys())
         ks.sort()
         for line in ks:
             for msg in self._log[line]:
@@ -632,5 +632,5 @@ if __name__ == '__main__':
     f.close()
     tidy.parse(css)
     tidy.Output('file', filename="Stylesheet.min.css")
-    print (tidy.Output())
+    print((tidy.Output()))
     #print tidy._import
