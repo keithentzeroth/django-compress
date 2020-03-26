@@ -20,7 +20,7 @@ def get_class(class_string):
             class_string = class_string.encode('ascii')
             mod_name, class_name = get_mod_func(class_string)
             if class_name != '':
-                class_string = getattr(__import__(mod_name, {}, {}, ['']), class_name)
+                class_string = getattr(__import__(mod_name.decode(), {}, {}, ['']), class_name.decode())
         except (ImportError, AttributeError):
             raise Exception('Failed to import filter %s' % class_string)
 
@@ -33,7 +33,7 @@ def get_mod_func(callback):
     """
 
     try:
-        dot = callback.rindex('.')
+        dot = callback.rindex('.'.encode())
     except ValueError:
         return callback, ''
     return callback[:dot], callback[dot+1:]
@@ -71,7 +71,7 @@ def concat(filenames, separator=''):
     """
     r = ''
     for filename in filenames:
-        fd = open(media_root(filename), 'rb')
+        fd = open(media_root(filename), 'r')
         r += fd.read()
         r += separator
         fd.close()
