@@ -9,6 +9,8 @@ from django.dispatch import dispatcher
 from compress.conf import settings
 from compress.signals import css_filtered, js_filtered
 
+from six import string_types
+
 def get_class(class_string):
     """
     Convert a string version of a function name to the callable object.
@@ -85,6 +87,9 @@ def save_file(filename, contents):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     fd = open(media_root(filename), 'wb+')
+    import pdb; pdb.set_trace()
+    if isinstance(contents, string_types):
+        contents = contents.encode()
     fd.write(contents)
     fd.close()
 
