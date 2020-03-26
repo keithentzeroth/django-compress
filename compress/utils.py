@@ -87,7 +87,6 @@ def save_file(filename, contents):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     fd = open(media_root(filename), 'wb+')
-    import pdb; pdb.set_trace()
     if isinstance(contents, string_types):
         contents = contents.encode()
     fd.write(contents)
